@@ -1,27 +1,41 @@
 package xyz.fcampbell.xposed_template;
 
-import de.robv.android.xposed.IXposedHookInitPackageResources;
 import de.robv.android.xposed.IXposedHookLoadPackage;
-import de.robv.android.xposed.IXposedHookZygoteInit;
-import de.robv.android.xposed.callbacks.XC_InitPackageResources;
-import de.robv.android.xposed.callbacks.XC_LoadPackage;
+import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XposedBridge;
+import de.robv.android.xposed.XposedHelpers;
+import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
-/**
- * Main Xposed module
- */
-public class Module implements IXposedHookZygoteInit, IXposedHookInitPackageResources, IXposedHookLoadPackage {
-    @Override
-    public void initZygote(StartupParam startupParam) throws Throwable {
-
-    }
+public class XposedModule implements IXposedHookLoadPackage {
 
     @Override
-    public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) throws Throwable {
+    public void handleLoadPackage(final LoadPackageParam lpparam) throws Throwable {
+        // Skip fundamental core system hooks to keep device stability
+        if ("android".equals(lpparam.packageName) || "com.android.systemui".equals(lpparam.packageName)) {
+            return;
+        }
 
-    }
-
-    @Override
-    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
-
+        try {
+            XposedHelpers.findAndHookMethod(
+                "android.net.NetworkRequest$Builder", 
+                lpparam.classLoader, 
+                "addCapability", 
+                int.class, 
+                new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        int capability = (int) param.args[0];
+                        
+                        // 15 = NET_CAPABILITY_NOT_VPN
+                        if (capability == 15) { 
+                            XposedBridge.log("[" + lpparam.packageName + "] Stripped NOT_VPN capability request.");
+                            param.setResult(param.thisObject); // Skip system execution safely
+                        }
+                    }
+                }
+            );
+        } catch (Throwable t) {
+            // Some apps may not have standard classloaders initialized yet
+        }
     }
 }
