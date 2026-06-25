@@ -6,7 +6,7 @@ import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
-public class XposedModule implements IXposedHookLoadPackage {
+public class Module implements IXposedHookLoadPackage {
 
     @Override
     public void handleLoadPackage(final LoadPackageParam lpparam) throws Throwable {
