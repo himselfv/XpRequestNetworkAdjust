@@ -1,4 +1,5 @@
 <resources>
-    <string name="app_name">Xposed-Template</string>
-    <string name="xposeddescription">Xposed-Template</string>
+    <string name="app_name">XpRequestNetworkAdjust</string>
+    <string name="xposeddescription">Strip NOT_VPN from network requests to force VPN routing</string>
+    <string name="module_name">RequestNetworkAdjust</string>
 </resources>

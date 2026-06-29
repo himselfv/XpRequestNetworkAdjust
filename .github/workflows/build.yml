@@ -1,4 +1,4 @@
-name: Build Xposed Module APK
+name: Build XpRequestNetworkAdjust
 
 on: [push, pull_request, workflow_dispatch]
 
@@ -24,5 +24,5 @@ jobs:
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: requestnetwork-adjust-module
+          name: XpRequestNetworkAdjust
           path: app/build/outputs/apk/debug/app-debug.apk

@@ -2,25 +2,25 @@ apply plugin: 'com.android.application'
 
 //noinspection GroovyMissingReturnStatement
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 28
+    buildToolsVersion "28.0.3"
     defaultConfig {
-        applicationId "xyz.fcampbell.xposed_template"
+        applicationId "xyz.xprequestnetworkadjust"
         minSdkVersion 9
-        targetSdkVersion 25
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 }
 
 dependencies {
     compileOnly  'de.robv.android.xposed:api:82'
-    implementation 'com.android.support:appcompat-v7:25.1.1' //for UI
+    implementation 'androidx.appcompat:appcompat:1.0.0'
 }
