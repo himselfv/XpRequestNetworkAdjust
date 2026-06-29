@@ -173,7 +173,7 @@ public class Module implements IXposedHookLoadPackage {
                             + callingUid + " pkg=" + pkg);
                 }
             });
-        } catch (NoSuchMethodError | NoSuchMethodException e) {
+        } catch (Throwable e) {
             NetLog.w("Method " + methodName + " not found in " + className + ": " + e.getMessage());
         }
     }
