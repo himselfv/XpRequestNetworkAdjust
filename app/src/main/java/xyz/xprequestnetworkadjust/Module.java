@@ -83,11 +83,10 @@ public class Module implements IXposedHookLoadPackage {
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                         // Log the final request with its current state
                         Object builder = param.thisObject;
-                        int[] reqs = XposedHelpers.getIntField(builder, "requirements");
-                        int[] matching = XposedHelpers.getIntField(builder, "matchingCapabilities");
-                        int[] trans = XposedHelpers.getIntField(builder, "transports");
-                        String caps = NetLog.bitmaskToString(
-                                (reqs != null ? reqs[0] : 0));
+                        int reqs = XposedHelpers.getIntField(builder, "requirements");
+                        int matching = XposedHelpers.getIntField(builder, "matchingCapabilities");
+                        int trans = XposedHelpers.getIntField(builder, "transports");
+                        String caps = NetLog.bitmaskToString(reqs);
                         NetLog.i("[" + lpparam.packageName + "] NetworkRequest.build() -> caps="
                                 + caps);
                     }
